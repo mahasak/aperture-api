@@ -11,8 +11,29 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
 scalaVersion := "2.13.1"
 
-libraryDependencies += guice
-libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test
+routesGenerator := InjectedRoutesGenerator
+
+excludeDependencies ++= Seq(
+  "commons-codec" % "commons-codec"
+  , "com.h2database" % "h2"
+  , "com.jolbox" % "bonecp"
+  , "org.apache.commons" % "commons-lang3"
+  , "org.hibernate.validator" % "hibernate-validator"
+)
+
+libraryDependencies ++= Seq(
+  jdbc, caffeine, guice
+  , "in.norbor" %% "yoda-security" % "20200331"
+  , "net.logstash.logback" % "logstash-logback-encoder" % "5.2"
+  , "org.postgresql" % "postgresql" % "42.2.5"
+  , "org.scalaj" %% "scalaj-http" % "2.4.2"
+)
+
+libraryDependencies ++= Seq(
+  "com.h2database" % "h2" % "1.4.194" % Test
+  , "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test
+)
+
 enablePlugins(JavaAppPackaging)
 enablePlugins(DockerPlugin)
 // Adds additional packages into Twirl
